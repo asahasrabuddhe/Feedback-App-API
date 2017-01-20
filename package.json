@@ -1,0 +1,41 @@
+{
+  "name": "feedback-app-api",
+  "version": "1.0.0",
+  "description": "The Feedback Application API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GreatDharmatma/Feedback-App-API.git"
+  },
+  "author": "Ajitem Sahasrabuddhe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GreatDharmatma/Feedback-App-API/issues"
+  },
+  "homepage": "https://github.com/GreatDharmatma/Feedback-App-API#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.16.0",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
+    "debug": "^2.6.0",
+    "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "express-validation": "^1.0.1",
+    "express-winston": "^2.1.2",
+    "helmet": "^3.4.0",
+    "http-status": "^0.2.5",
+    "joi": "^10.2.0",
+    "jsonwebtoken": "^7.2.1",
+    "method-override": "^2.3.7",
+    "mongoose": "^4.7.7",
+    "mongoose-type-email": "^1.0.2",
+    "morgan": "^1.7.0",
+    "winston": "^2.3.0"
+  }
+}
