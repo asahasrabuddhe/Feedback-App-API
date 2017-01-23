@@ -12,7 +12,7 @@ router.route('/:userID')
 	
 	.get(expressJwt({ secret: config.jwtSecret }), user.get)
 
-	.put(expressJwt({ secret: config.jwtSecret }), user.update)
+	.post(expressJwt({ secret: config.jwtSecret }), user.update)
 
 	.delete(expressJwt({ secret: config.jwtSecret }), user.remove);
 

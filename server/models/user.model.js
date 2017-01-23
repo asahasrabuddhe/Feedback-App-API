@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 require('mongoose-type-email');
+mongoose.Promise = require('bluebird');
 var httpStatus = require('http-status');
 var APIError = require('../helpers/APIError');
 var bcrypt = require('bcryptjs');
@@ -34,22 +35,18 @@ const userSchema = new mongoose.Schema({
  	feedback: {
  		response1: {
  			type: String,
- 			required: true,
  			default: ''
  		},
  		response2:{
  			type: String,
- 			required: true,
  			default: ''
  		},
  		response3: {
  			type: String,
- 			required: true,
  			default: ''
  		},
  		response4: {
  			type: String,
- 			required: true,
  			default: ''
  		},
  		comments: {
@@ -71,5 +68,19 @@ userSchema.pre('save', function(next){
 		});
 	});
 });
+
+userSchema.statics = {
+	get(id) {
+		return this.findById(id)
+		.exec();
+	},
+	list(limit = 50, skip = 0)  {
+		return this.find()
+		.sort({ createdAt: -1 })
+		.skip(skip)
+		.limit(limit)
+		.exec();
+	}
+};
 
 mongoose.model('UserModel', userSchema);
