@@ -11,11 +11,11 @@ var express = require('express'),
 	helmet = require('helmet'),
 	winston = require('./winston'),
 	index = require('../server/routes/index.route'),
-	env = require('./env'),
+	config = require('./env'),
 	APIError = require('../server/helpers/APIError'),
 	app = express();
 
-if (env === 'development') {
+if (config.env === 'development') {
 	app.use(morgan('dev'));
 }
 
@@ -34,7 +34,7 @@ app.use(helmet());
 app.use(cors());
 
 // enable detailed API logging in dev env
-if (env === 'development') {
+if (config.env === 'development') {
 	expressWinston.requestWhitelist.push('body');
 	expressWinston.responseWhitelist.push('body');
 	app.use(expressWinston.logger({
@@ -51,6 +51,7 @@ app.use('/api', index);
 // if error is not an instanceOf APIError, convert it.
 app.use(function (err, req, res, next) {
 	if (err) {
+		return next(err);
 		// validation error contains errors which is an array of error each containing message[]
 		var unifiedErrorMessage = err.errors.map(function (error) {
 			return error.messages.join('. ');
@@ -64,12 +65,12 @@ app.use(function (err, req, res, next) {
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-	var err = new PIError('API not found', httpStatus.NOT_FOUND);
+	var err = new APIError('API not found', httpStatus.NOT_FOUND);
 	return next(err);
 });
 
 // log error in winston transports except when executing test suite
-if (env !== 'test') {
+if (config.env !== 'test') {
 	app.use(expressWinston.errorLogger({
 		winstonInstance: winston
 	}));
@@ -77,10 +78,11 @@ if (env !== 'test') {
 
 // error handler, send stacktrace only during development
 app.use(function (err, req, res, next) {
+
 	return (// eslint-disable-line no-unused-vars
 		res.status(err.status).json({
 			message: err.isPublic ? err.message : httpStatus[err.status],
-			stack: env === 'development' ? err.stack : {}
+			stack: config.env === 'development' ? err.stack : {}
 		})
 	);
 });

@@ -26,5 +26,17 @@ module.exports = {
 			username: joi.string().required(),
 			password: joi.string().required()
 		}
+	},
+
+	// POST /api/auth/register
+	register: {
+		body: {
+			username: joi.string().required(),
+			firstname: joi.string().required(),
+			lastname: joi.string().required(),
+			email: joi.string().email().required(),
+			role: joi.number().integer().min(1).max(2),
+			password: joi.string().required()
+		}
 	}
 };

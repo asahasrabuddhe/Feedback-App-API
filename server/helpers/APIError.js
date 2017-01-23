@@ -1,3 +1,5 @@
+'use strict';
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,6 +16,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @extends Error
+ */
 var ExtendableError = function (_Error) {
   _inherits(ExtendableError, _Error);
 
@@ -26,7 +31,7 @@ var ExtendableError = function (_Error) {
     _this.message = message;
     _this.status = status;
     _this.isPublic = isPublic;
-    _this.isOperational = true;
+    _this.isOperational = true; // This is required since bluebird 4 doesn't append it anymore.
     Error.captureStackTrace(_this, _this.constructor.name);
     return _this;
   }
@@ -34,12 +39,24 @@ var ExtendableError = function (_Error) {
   return ExtendableError;
 }(Error);
 
+/**
+ * Class representing an API error.
+ * @extends ExtendableError
+ */
+
+
 var APIError = function (_ExtendableError) {
   _inherits(APIError, _ExtendableError);
 
+  /**
+   * Creates an API error.
+   * @param {string} message - Error message.
+   * @param {number} status - HTTP status code of error.
+   * @param {boolean} isPublic - Whether the message should be visible to user or not.
+   */
   function APIError(message) {
-    var status = arguments.length <= 1 || arguments[1] === undefined ? _httpStatus2.default.INTERNAL_SERVER_ERROR : arguments[1];
-    var isPublic = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+    var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _httpStatus2.default.INTERNAL_SERVER_ERROR;
+    var isPublic = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
     _classCallCheck(this, APIError);
 
@@ -49,4 +66,4 @@ var APIError = function (_ExtendableError) {
   return APIError;
 }(ExtendableError);
 
-exports.default = APIError;
+module.exports = APIError;

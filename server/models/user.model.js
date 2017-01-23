@@ -1,4 +1,3 @@
-var Promise = require('bluebird');
 var mongoose = require('mongoose');
 require('mongoose-type-email');
 var httpStatus = require('http-status');
@@ -27,12 +26,37 @@ const userSchema = new mongoose.Schema({
  		type: Number,
  		required: true,
  		default: 1
- 	}
+ 	},
  	password: {
  		type: String,
  		required: true
+ 	},
+ 	feedback: {
+ 		response1: {
+ 			type: String,
+ 			required: true,
+ 			default: ''
+ 		},
+ 		response2:{
+ 			type: String,
+ 			required: true,
+ 			default: ''
+ 		},
+ 		response3: {
+ 			type: String,
+ 			required: true,
+ 			default: ''
+ 		},
+ 		response4: {
+ 			type: String,
+ 			required: true,
+ 			default: ''
+ 		},
+ 		comments: {
+ 			type: String
+ 		}
  	}
- });
+ }, { collection: 'UserModel' });
 
 userSchema.pre('save', function(next){
 	var user = this;
@@ -48,4 +72,4 @@ userSchema.pre('save', function(next){
 	});
 });
 
-mongoose.model('UserModel', userSchema)
+mongoose.model('UserModel', userSchema);

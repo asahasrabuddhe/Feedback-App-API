@@ -1,14 +1,10 @@
-var _winston = require('winston');
+var winston = require('winston');
 
-var _winston2 = _interopRequireDefault(_winston);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var logger = new _winston2.default.Logger({
-	transports: [new _winston2.default.transports.Console({
+var logger = new winston.Logger({
+	transports: [new winston.transports.Console({
 		json: true,
 		colorize: true
 	})]
 });
 
-module.exports = { logger: logger };
+module.exports = logger;
