@@ -5,7 +5,7 @@ function load(req, res, next, id) {
 	UserModel.get(id)
 		.then(function(user){
 			req.user = user;
-			return next();
+			return next(req);
 		})
 		.error(function(err){
 			return next(err);
@@ -18,8 +18,8 @@ function get(req,res) {
 }
 
 function update(req, res, next) {
+	var user = req.user.user;
 
-	const user = req.user;
 	if(typeof req.body.username==='String')
 		user.username = req.body.username;
 	if(typeof req.body.firstname==='String')
@@ -28,13 +28,14 @@ function update(req, res, next) {
 		user.lastName = req.body.lastname;
 	if(typeof req.body.email==='String')
 		user.email = req.body.email;
-	if(req.body.role)
+	if(typeof req.body.role==='Number')
 		user.role = req.body.role;
 	if(typeof req.body.password==='String')
 		user.password = req.body.password;
 	if(typeof req.body.comments==='String')
 		user.feedback.comments = req.body.comments;
 
+	console.log(user);
 	user.save(function(err, savedUser){
 		if(err){
 			console.log(err);

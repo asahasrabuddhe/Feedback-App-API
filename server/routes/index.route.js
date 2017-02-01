@@ -5,7 +5,7 @@ var userRoutes = require('./user.route');
 const router = express.Router();
 
 router.get('/health-check', function(req, res){
-	res.send('OK');
+	res.json('OK');
 });
 
 router.use('/auth', authRoutes);
